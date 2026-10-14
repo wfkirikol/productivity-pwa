@@ -22,7 +22,7 @@ def test_openrouter_success_sends_auth_and_app_headers():
         assert request.headers["Authorization"] == "Bearer test-key"
         assert request.headers["HTTP-Referer"] == "http://localhost:5173"
         assert request.headers["X-Title"] == "Test App"
-        assert json.loads(request.content)["model"] == "openrouter/free"
+        assert json.loads(request.content)["model"] == "google/gemma-4-31b-it:free"
         return httpx.Response(
             200,
             json={"choices": [{"message": {"content": "Начните с первого шага."}}]},

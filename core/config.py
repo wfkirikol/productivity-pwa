@@ -1,4 +1,5 @@
 from functools import lru_cache
+from typing import Literal
 from urllib.parse import urlparse
 
 from pydantic import Field, SecretStr, field_validator
@@ -15,7 +16,7 @@ class Settings(BaseSettings):
 
     openrouter_api_key: SecretStr | None = None
     openrouter_base_url: str = "https://openrouter.ai/api/v1"
-    openrouter_model: str = "openrouter/free"
+    openrouter_model: Literal["google/gemma-4-31b-it:free"] = "google/gemma-4-31b-it:free"
     openrouter_timeout_seconds: float = Field(default=30.0, gt=0, le=120)
     app_name: str = "Ritm Productivity PWA"
     app_url: str = "http://localhost:5173"

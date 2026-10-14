@@ -31,7 +31,13 @@ class OpenRouterAdapter:
         self.transport = transport
         self.logger = get_logger("openrouter")
 
-    async def complete(self, scenario: str, system_prompt: str, user_prompt: str) -> AIResult:
+    async def complete(
+        self,
+        scenario: str,
+        system_prompt: str,
+        user_prompt: str,
+        response_format: dict[str, str] | None = None,
+    ) -> AIResult:
         fallback = _FALLBACKS.get(scenario, _FALLBACKS["motivation"])
         api_key = self.settings.openrouter_api_key
         if api_key is None or not api_key.get_secret_value().strip():
@@ -52,6 +58,8 @@ class OpenRouterAdapter:
                 {"role": "user", "content": user_prompt},
             ],
         }
+        if response_format is not None:
+            payload["response_format"] = response_format
         started = monotonic()
         self.logger.info("OpenRouter request started scenario=%s model=%s", scenario, self.settings.openrouter_model)
         try:
